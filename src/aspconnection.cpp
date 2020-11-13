@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <iostream>
 #include <QCoreApplication>
-
+#include <cstdint>
 
 AspConnection::AspConnection(QString portName, int baudRate, QObject *parent):
     QObject(parent),
@@ -29,10 +29,8 @@ AspConnection::AspConnection(QString portName, int baudRate, QObject *parent):
         QByteArray data = m_serialPort->readAll();
         for (const auto& value : data)
         {
-            std::cout << value <<";";
+            std::cout << (int)value <<" ";
         }
-        std::cout<<std::endl;
-        m_standardOutput << data << '\n';
     }
 
 
@@ -54,7 +52,7 @@ void AspConnection::handleReadyRead()
     QByteArray data = m_serialPort->readAll();
     for (const auto& value : data)
     {
-        std::cout << value <<";";
+        std::cout << std::hex << (unsigned)(unsigned char)value <<" ";
         if ('q' == value)
         {
             m_serialPort->close();

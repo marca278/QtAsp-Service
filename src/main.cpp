@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <iostream>
 
+#include "test.h"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -12,6 +14,7 @@ int main(int argc, char *argv[])
 
     QTextStream standardOutput(stdout);
 
+    qInfo() << "Is this working?";
     qDebug() << "start application \n";
     if (argumentCount == 1) {
         standardOutput << QObject::tr("Usage: %1 <serialportname> [baudrate]")
@@ -24,5 +27,6 @@ int main(int argc, char *argv[])
     AspConnection aspCon(argumentList.at(1), baudrate);
 
 
+    test_datastream();
     return a.exec();
 }
