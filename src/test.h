@@ -1,6 +1,5 @@
 #ifndef TEST_H
 #define TEST_H
-
-void test_datastream(void);
+void test2(void);
 
 #endif // TEST_H

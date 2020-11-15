@@ -3,6 +3,7 @@
 #include "aspconnection.h"
 #include <QDebug>
 #include <iostream>
+#include "Asp/aspobject.h"
 
 #include "test.h"
 
@@ -24,9 +25,14 @@ int main(int argc, char *argv[])
     }
     int baudrate = (argumentCount > 2) ? argumentList.at(2).toInt() : 115200;
 
-    AspConnection aspCon(argumentList.at(1), baudrate);
+    //AspConnection aspCon(argumentList.at(1), baudrate);
 
 
-    test_datastream();
-    return a.exec();
+    test2();
+
+
+
+
+    //return a.exec();
+    a.exit(0);
 }
