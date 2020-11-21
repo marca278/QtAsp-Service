@@ -5,6 +5,8 @@
 #include <vector>
 #include <iostream>
 
+using namespace std;
+
 template <class T>
 class Asp2
 {
@@ -61,6 +63,51 @@ template<class T>
 void Asp2<T>::setSid(const uint16_t &sid)
 {
     m_sid = sid;
+}
+
+namespace Asp {
+
+
+class AspObject
+{
+
+protected:
+    std::vector<uint8_t> m_vectorStream;
+    char *formatString;
+
+public:
+    uint16_t getId();
+    uint16_t setId(uint16_t);
+    uint16_t getSid();
+    uint16_t setSid(uint16_t);
+
+    AspObject();
+    AspObject(uint16_t id, uint16_t sid);
+    AspObject(uint16_t id, uint16_t sid, uint8_t *data, size_t dataSize);
+    AspObject(uint16_t id, uint16_t sid, vector<uint8_t> &data);
+    AspObject(vector<uint8_t> &data);
+
+    void setPayload(const uint8_t *payload, const size_t size);
+    void setPayload(const vector<uint8_t> &payload);
+
+    const std::vector<uint8_t>& getPayload() const;
+    unsigned getPayloadLength(void) const;
+
+    char *getFormatString() const;
+    void setFormatString(const char *value);
+
+    const vector<uint8_t> & toStream(void);
+
+
+    unsigned length() const;
+
+    std::vector<uint8_t> toVector(void) const;
+
+
+
+
+};
+
 }
 
 #endif // ASPOBJECT_H

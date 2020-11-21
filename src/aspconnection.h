@@ -6,25 +6,31 @@
 #include <QSerialPort>
 #include <QTextStream>
 
-class AspConnection : public QObject
+#include <Asp/asp.h>
+
+using namespace std;
+
+namespace Asp {
+
+
+enum class Status {Ok, Error, Timeout};
+
+class Connection : public QObject
 {
     Q_OBJECT
-public:
-    explicit AspConnection(QString portName, int baudRate, QObject *parent = nullptr);
-    ~AspConnection();
-
-private slots:
-    void handleReadyRead();
-   // void handleTimeout();
-    void handleError(QSerialPort::SerialPortError error);
 
 private:
-    QString m_portName;
-    int m_baudRate;
-    QSerialPort *m_serialPort = nullptr;
-    QByteArray m_readData;
-    QTextStream m_standardOutput;
+    ICommunication *m_interface;
 
+public:
+    Connection(ICommunication *comInterface, QObject *parent = nullptr);
+    Status read(uint16_t id, uint16_t sid) const;
+    Status read(AspObject &obj) const;
+    Status write(uint16_t id, uint16_t sid,uint8_t *data) const;
+    Status write(uint16_t id, uint16_t sid,vector<uint8_t> &data) const;
+    Status write(const AspObject &obj) const;
 };
+
+}
 
 #endif // ASPCONNECTION_H

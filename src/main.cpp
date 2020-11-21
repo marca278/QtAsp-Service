@@ -28,11 +28,9 @@ int main(int argc, char *argv[])
     //AspConnection aspCon(argumentList.at(1), baudrate);
 
 
-    test2();
+    Test::TestQDataStream();
+    Test_Serial *test23 = new Test_Serial();
 
+    return a.exec();
 
-
-
-    //return a.exec();
-    a.exit(0);
 }
