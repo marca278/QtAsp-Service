@@ -11,6 +11,7 @@ CONFIG -= app_bundle
 SOURCES += \
         Asp/asp.cpp \
         Asp/aspcoder.cpp \
+        Asp/aspframe.cpp \
         Asp/aspmessage.cpp \
         Asp/aspobject.cpp \
         Asp/interface.cpp \
@@ -27,6 +28,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     Asp/asp.h \
     Asp/aspcoder.h \
+    Asp/aspframe.h \
     Asp/aspmessage.h \
     Asp/aspobject.h \
     Asp/interface.h \

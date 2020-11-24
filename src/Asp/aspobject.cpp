@@ -14,80 +14,68 @@ namespace Asp {
 
 AspObject::AspObject()
 {
-    m_vectorStream.clear();
-    for(int i = 0; i<4; i++)
-        m_vectorStream.push_back(0);
+    buffer.resize(4);
+    setId(0);
+    setSid(0);
 }
 
-AspObject::AspObject(uint16_t id, uint16_t sid) : AspObject()
+AspObject::AspObject(const quint16 id, const quint16 sid)
 {
+    buffer.resize(4);
     setId(id);
     setSid(sid);
 }
 
-AspObject::AspObject(uint16_t id, uint16_t sid, uint8_t *data, size_t dataSize) : AspObject(id, sid)
+AspObject::AspObject(const quint16 id,const quint16 sid,const QVector<quint8> &data) : AspObject(id, sid)
 {
-    this->setPayload(data, dataSize);
-}
-
-AspObject::AspObject(uint16_t id, uint16_t sid, vector<uint8_t> &data) : AspObject(id, sid)
-{
-   setPayload(data);
-}
-
-AspObject::AspObject(vector<uint8_t> &data)
-{
-    m_vectorStream.clear();
-    m_vectorStream.insert(m_vectorStream.begin(), data.begin(), data.end());
-}
-
-void AspObject::setPayload(const uint8_t *payload, const size_t size)
-{
-    m_vectorStream.resize(4);
-
-    for(unsigned i=0; i< size; i++)
+    for(const auto &i : data)
     {
-        m_vectorStream.push_back(payload[i]);
+        buffer.append(static_cast<char>(i));
     }
-
 }
 
-void AspObject::setPayload(const vector<uint8_t> &payload)
+AspObject::AspObject(const QVector<quint8> &data)
 {
-    m_vectorStream.resize(4);
-
-    m_vectorStream.insert(m_vectorStream.begin() + 4, payload.begin(), payload.end());
-}
-
-char *AspObject::getFormatString() const
-{
-    return formatString;
-}
-
-void AspObject::setFormatString(const char *value)
-{
-    size_t len = std::strlen(value);
-    if(len < 1000)
+    for(const auto &i : data)
     {
-        formatString = new char[len];
+        buffer.append(static_cast<char>(i));
     }
-
 }
 
-unsigned AspObject::getPayloadLength() const
+AspObject::AspObject(const QByteArray &data)
 {
-    return this->length() - 4;
+    buffer = QByteArray(data);
 }
 
-unsigned AspObject::length() const
+quint16 AspObject::getId() const
 {
-    return m_vectorStream.size();
+    return static_cast<quint16>((buffer[1] << 8) | buffer[0]);
 }
 
-std::vector<uint8_t> AspObject::toVector() const
+void AspObject::setId(quint16 id)
 {
-    vector<uint8_t> v(m_vectorStream);
-    return v;
+    buffer[0] = static_cast<char>(id & 0xff);
+    buffer[1] = static_cast<char>((id & 0xff00) >> 8);
 }
 
+quint16 AspObject::getSid() const
+{
+    return static_cast<quint16>((buffer[3] << 8) | buffer[2]);
+}
+
+void AspObject::setSid(quint16 sid)
+{
+    buffer[2] = static_cast<char>(sid & 0xff);
+    buffer[3] = static_cast<char>((sid & 0xff00) >> 8);
+}
+
+quint16 AspObject::getLength() const
+{
+    return static_cast<quint16>(buffer.length());
+}
+
+const QByteArray &AspObject::getBuffer() const
+{
+    return buffer;
+}
 }

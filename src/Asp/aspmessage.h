@@ -1,33 +1,37 @@
 #ifndef ASPMESSAGE_H
 #define ASPMESSAGE_H
 
-#include <cstdint>
-#include <vector>
+#include <QByteArray>
 #include <Asp/asp.h>
 
 namespace  Asp{
 
-
-using namespace std;
-enum class AspMessageType : uint8_t {ReadRequest = 1, WriteRequest = 2, AsyncNotify = 3, Stream = 4, ReadAnswer = 5,
+enum class AspMessageType : quint8 {ReadRequest = 1, WriteRequest = 2, AsyncNotify = 3, Stream = 4, ReadAnswer = 5,
                                      WriteOk = 6, AsyncAck = 7, ReadError = 8, WriteError = 9, Unknown=255};
 
 
 class AspMessage
 {
 private:
-    vector<uint8_t> m_vectorStream;
+    QByteArray buffer;
+
 
 public:
-    AspMessage(AspMessageType type, AspObject &obj);
-    AspMessage(AspMessageType, uint16_t id, uint16_t sid, uint8_t *data = nullptr);
-    AspMessage(AspMessageType, uint16_t id, uint16_t sid, vector<uint8_t> &data);
+    static const quint16 lengthPosition;
+    static const quint16 typePosition;
+    static const quint16 idPosition;
+    static const quint16 sidPosition;
+    static const quint16 dataPosition;
 
-    uint16_t length();
+    AspMessage(AspMessageType type,const AspObject &obj);
+    AspMessage(AspMessageType type, quint16 id, quint16 sid, const QByteArray *data = nullptr);
+
+    quint16 length();
     AspMessageType getMessageType();
     AspObject getAspObject();
 
-    vector<uint8_t> messageToVector();
+    QVector<quint8> toVector();
+    const QByteArray &getBuffer() const;
 
 };
 }

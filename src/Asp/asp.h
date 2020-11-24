@@ -3,19 +3,12 @@
 #include <Asp/aspobject.h>
 #include <Asp/aspmessage.h>
 #include <Asp/interface.h>
+#include <Asp/aspframe.h>
+
 #include <vector>
+#include <QDataStream>
 
 using namespace std;
-
-class StreamBuffer : public vector<uint8_t>
-{
-public:
-    StreamBuffer() : vector() {}
-
-    StreamBuffer &operator<< (uint8_t val);
-    StreamBuffer &operator<< (uint16_t val);
-    StreamBuffer &operator<< (uint32_t val);
-};
 
 static inline std::vector<uint8_t> Serialize(uint16_t val)
 {
@@ -124,5 +117,51 @@ static inline void ConcateVectors(vector<uint8_t> &dest,const vector<uint8_t> &s
 {
     dest.insert(dest.end(), src.begin(), src.end());
 }
+
+template <typename T>
+static inline void insert(QByteArray& ba, T val, quint32 pos)
+{
+    if((ba.length() + 1) < static_cast<qint32>(pos))
+    {
+        ba.resize(pos);
+    }
+    QDataStream st{&ba, QIODevice::WriteOnly};
+    st.setByteOrder(QDataStream::LittleEndian);
+    st.device()->seek(pos);
+    st << val;
+}
+
+//static inline void insert(QByteArray& ba, quint16 val, quint32 pos)
+//{
+//    ba[pos] = static_cast<char>(val & 0xff);
+//    ba[++pos] = static_cast<char>((val & 0xff00)>>8);
+//}
+
+//static inline void insert(QByteArray& ba, quint32 val, quint32 pos)
+//{
+//    ba[pos] = static_cast<char>(val & 0xff);
+//    ba[++pos] = static_cast<char>((val & 0xff00)>>8);
+//    ba[++pos] = static_cast<char>((val & 0xff0000)>>16);
+//    ba[++pos] = static_cast<char>((val & 0xff000000)>>24);
+//}
+
+//static inline void insert(QByteArray& ba, qint8 val, quint32 pos)
+//{
+//    ba[pos] = static_cast<char>(val);
+//}
+
+//static inline void insert(QByteArray& ba, qint16 val, quint32 pos)
+//{
+//    ba[pos] = static_cast<char>(val & 0xff);
+//    ba[++pos] = static_cast<char>((val & 0xff00)>>8);
+//}
+
+//static inline void insert(QByteArray& ba, qint32 val, quint32 pos)
+//{
+//    ba[pos] = static_cast<char>(val & 0xff);
+//    ba[++pos] = static_cast<char>((val & 0xff00)>>8);
+//    ba[++pos] = static_cast<char>((val & 0xff0000)>>16);
+//    ba[++pos] = static_cast<char>((val & 0xff000000)>>24);
+//}
 
 #endif // ASP_H

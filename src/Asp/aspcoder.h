@@ -1,7 +1,7 @@
 #ifndef ASPDECODER_H
 #define ASPDECODER_H
 
-namespace  {
+namespace  Asp{
 
 
 class AspDeCoder

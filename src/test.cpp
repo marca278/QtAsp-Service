@@ -4,6 +4,7 @@
 #include <Asp/interface.h>
 #include <QTextStream>
 #include <QString>
+#include <QVector>
 
 using namespace Asp;
 void test2(void)
@@ -31,14 +32,12 @@ void test_logger(void)
 
 void test_asp(void)
 {
-    uint8_t data[] = {1,2,3,4,5};
-    AspObject obj(12, 34, data, sizeof(data));
+    QVector<quint8> data = {1,2,3,4,5};
+    AspObject obj(12, 34, data);
 
-    AspMessage m(AspMessageType::WriteRequest, &obj);
+    AspMessage m(AspMessageType::WriteRequest, obj);
 
-    Log::Debug("id: %d  sid: %d", m.Id(), m.Sid());
-
-
+    Log::Debug("id: %d  sid: %d", m.getAspObject().getId(), m.getAspObject().getSid());
 }
 
 

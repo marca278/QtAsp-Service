@@ -1,18 +1,17 @@
 #ifndef ASPOBJECT_H
 #define ASPOBJECT_H
 
-#include<cstdint>
-#include <vector>
-#include <iostream>
 
-using namespace std;
+#include<QVector>
+#include <iostream>
+#include <QByteArray>
 
 template <class T>
 class Asp2
 {
 protected:
-    uint16_t m_id;
-    uint16_t m_sid;
+    quint16 m_id;
+    quint16 m_sid;
     T *data;
 
 public:
@@ -21,12 +20,12 @@ public:
         m_id = 0;
         m_sid = 0;
     };
-    Asp2(uint16_t id, uint16_t sid);
+    Asp2(quint16 id, quint16 sid);
 
-    uint16_t id() const;
-    void setId(const uint16_t &id);
-    uint16_t sid() const;
-    void setSid(const uint16_t &sid);
+    quint16 id() const;
+    void setId(const quint16 &id);
+    quint16 sid() const;
+    void setSid(const quint16 &sid);
     void print(void);
 
 };
@@ -39,74 +38,78 @@ void Asp2<T>::print(void)
 }
 
 template<class T>
-Asp2<T>::Asp2(uint16_t id, uint16_t sid) : m_id(id), m_sid(sid){}
+Asp2<T>::Asp2(quint16 id, quint16 sid) : m_id(id), m_sid(sid){}
 
 template<class T>
-uint16_t Asp2<T>::id() const
+quint16 Asp2<T>::id() const
 {
     return m_id;
 }
 
 template<class T>
-void Asp2<T>::setId(const uint16_t &id)
+void Asp2<T>::setId(const quint16 &id)
 {
     m_id = id;
 }
 
 template<class T>
-uint16_t Asp2<T>::sid() const
+quint16 Asp2<T>::sid() const
 {
     return m_sid;
 }
 
 template<class T>
-void Asp2<T>::setSid(const uint16_t &sid)
+void Asp2<T>::setSid(const quint16 &sid)
 {
     m_sid = sid;
 }
 
 namespace Asp {
 
+class AspObject;
+
 
 class AspObject
 {
 
 protected:
-    std::vector<uint8_t> m_vectorStream;
-    char *formatString;
+
+    QByteArray buffer;
 
 public:
-    uint16_t getId();
-    uint16_t setId(uint16_t);
-    uint16_t getSid();
-    uint16_t setSid(uint16_t);
 
+    typedef  QVector<quint8>& (*SerialiazeFunction) ();
     AspObject();
-    AspObject(uint16_t id, uint16_t sid);
-    AspObject(uint16_t id, uint16_t sid, uint8_t *data, size_t dataSize);
-    AspObject(uint16_t id, uint16_t sid, vector<uint8_t> &data);
-    AspObject(vector<uint8_t> &data);
+    AspObject(const quint16 id,const quint16 sid);
+    AspObject(const quint16 id,const  quint16 sid,const QVector<quint8> &data);
+    AspObject(const QVector<quint8> &data);
+    AspObject(const QByteArray& data);
 
-    void setPayload(const uint8_t *payload, const size_t size);
-    void setPayload(const vector<uint8_t> &payload);
+    template <typename T>
+    AspObject(const quint16 id,const quint16 sid,const T& data);
+    template <typename T>
+    AspObject(const quint16 id, const quint16 sid,const T& data, SerialiazeFunction ptr);
 
-    const std::vector<uint8_t>& getPayload() const;
-    unsigned getPayloadLength(void) const;
+    quint16 getId() const;
+    void setId(quint16 id);
+    quint16 getSid() const;
+    void setSid(quint16 sid);
 
-    char *getFormatString() const;
-    void setFormatString(const char *value);
+    quint16 getLength() const;
 
-    const vector<uint8_t> & toStream(void);
+    QByteArray& getBuffer();
+    const QByteArray& getBuffer() const;
 
+public:
 
-    unsigned length() const;
-
-    std::vector<uint8_t> toVector(void) const;
-
-
-
-
+    QString formatString;
 };
+
+template<typename T>
+AspObject::AspObject(const quint16 id, const quint16 sid, const T &data, AspObject::SerialiazeFunction ptr): AspObject(id, sid, data.ptr()){}
+
+template<typename T>
+AspObject::AspObject(const quint16 id, const quint16 sid,const T &data) : AspObject(id, sid, data.toVector()){}
 
 }
 

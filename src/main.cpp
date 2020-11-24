@@ -17,16 +17,20 @@ int main(int argc, char *argv[])
 
     qInfo() << "Is this working?";
     qDebug() << "start application \n";
-    if (argumentCount == 1) {
-        standardOutput << QObject::tr("Usage: %1 <serialportname> [baudrate]")
-                          .arg(argumentList.first())
-                       << "\n";
-        return 1;
-    }
-    int baudrate = (argumentCount > 2) ? argumentList.at(2).toInt() : 115200;
+//    if (argumentCount == 1) {
+//        standardOutput << QObject::tr("Usage: %1 <serialportname> [baudrate]")
+//                          .arg(argumentList.first())
+//                       << "\n";
+//        return 1;
+//    }
+//    int baudrate = (argumentCount > 2) ? argumentList.at(2).toInt() : 115200;
 
     //AspConnection aspCon(argumentList.at(1), baudrate);
 
+
+    AspFrame frame;
+    AspMessage msg(AspMessageType::ReadRequest, 8, 3);
+    frame.AddMessage(msg);
 
     Test::TestQDataStream();
     Test_Serial *test23 = new Test_Serial();
