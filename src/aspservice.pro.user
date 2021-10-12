@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.13.3, 2020-11-24T21:30:06. -->
+<!-- Written by QtCreator 4.13.3, 2020-11-25T20:08:42. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -334,6 +334,7 @@
     <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseTerminal">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory"></value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/marc/QtProjects/QtAsp-Service/build-aspservice-Desktop_Qt_5_15_2_GCC_64bit-Debug</value>
    </valuemap>

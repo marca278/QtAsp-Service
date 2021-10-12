@@ -11,12 +11,12 @@ CONFIG -= app_bundle
 SOURCES += \
         Asp/asp.cpp \
         Asp/aspcoder.cpp \
+        Asp/aspconnection.cpp \
         Asp/aspframe.cpp \
         Asp/aspmessage.cpp \
         Asp/aspobject.cpp \
         Asp/interface.cpp \
         Logger/log.cpp \
-        aspconnection.cpp \
         main.cpp \
         test.cpp
 
@@ -27,11 +27,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     Asp/asp.h \
+    Asp/aspHelper.h \
     Asp/aspcoder.h \
+    Asp/aspconnection.h \
     Asp/aspframe.h \
     Asp/aspmessage.h \
     Asp/aspobject.h \
     Asp/interface.h \
     Logger/log.h \
-    aspconnection.h \
     test.h

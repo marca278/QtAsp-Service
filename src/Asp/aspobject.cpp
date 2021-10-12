@@ -1,6 +1,6 @@
 #include "Asp/aspobject.h"
 #include <iostream>
-#include <cstring>
+#include <QTextStream>
 
 using namespace std;
 
@@ -78,4 +78,24 @@ const QByteArray &AspObject::getBuffer() const
 {
     return buffer;
 }
+
+QByteArray AspObject::getPayload() const
+{
+    return buffer.mid(4);
+}
+
+QString AspObject::toString()
+{
+    QString string;
+    QTextStream stream(&string);
+
+    stream << "Id: " << getId() << "; Sid: " << getSid() << " Data: ";
+    for (const auto &i: getPayload())
+    {
+        stream << static_cast<quint8>(i) <<", ";
+    }
+
+    return string;
+}
+
 }

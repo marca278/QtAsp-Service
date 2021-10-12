@@ -1,7 +1,7 @@
 #ifndef ASPFRAME_H
 #define ASPFRAME_H
 
-#include "Asp/aspmessage.h"
+#include "aspmessage.h"
 
 namespace Asp {
 
@@ -22,6 +22,7 @@ public:
 
     void AddMessage(AspMessage &msg);
 
+    QString toString() const;
 
 };
 

@@ -87,6 +87,7 @@ public:
 
     template <typename T>
     AspObject(const quint16 id,const quint16 sid,const T& data);
+
     template <typename T>
     AspObject(const quint16 id, const quint16 sid,const T& data, SerialiazeFunction ptr);
 
@@ -99,6 +100,10 @@ public:
 
     QByteArray& getBuffer();
     const QByteArray& getBuffer() const;
+
+    QByteArray getPayload() const;
+
+    QString toString();
 
 public:
 

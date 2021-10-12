@@ -4,7 +4,10 @@
 #include <QObject>
 #include <QByteArray>
 #include <QSerialPort>
+#include <QQueue>
 #include <QTextStream>
+#include <QMutex>
+#include <QMutexLocker>
 
 #include <Asp/asp.h>
 
@@ -21,6 +24,8 @@ class Connection : public QObject
 
 private:
     ICommunication *m_interface;
+    QQueue<AspMessage> txQueue;
+    QMutex txQueueMutex;
 
 public:
     Connection(ICommunication *comInterface, QObject *parent = nullptr);
@@ -29,6 +34,9 @@ public:
     Status write(uint16_t id, uint16_t sid,uint8_t *data) const;
     Status write(uint16_t id, uint16_t sid,vector<uint8_t> &data) const;
     Status write(const AspObject &obj) const;
+
+private:
+
 };
 
 }

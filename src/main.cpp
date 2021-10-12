@@ -1,10 +1,10 @@
 #include <QCoreApplication>
 #include <QTextStream>
-#include "aspconnection.h"
+#include "Asp/aspconnection.h"
 #include <QDebug>
 #include <iostream>
 #include "Asp/aspobject.h"
-
+#include <QByteArray>
 #include "test.h"
 
 int main(int argc, char *argv[])
@@ -29,10 +29,14 @@ int main(int argc, char *argv[])
 
 
     AspFrame frame;
-    AspMessage msg(AspMessageType::ReadRequest, 8, 3);
-    frame.AddMessage(msg);
 
-    Test::TestQDataStream();
+    AspMessage msg(AspMessageType::WriteRequest, 8, 3, QVector<quint8>({1,2,3,4,6}));
+    qDebug() << msg.toString();
+    frame.AddMessage(msg);
+    qDebug() << frame.toString();
+
+    //Test::TestQDataStream();
+
     Test_Serial *test23 = new Test_Serial();
 
     return a.exec();

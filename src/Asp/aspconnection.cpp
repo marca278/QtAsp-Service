@@ -11,6 +11,11 @@ Connection::Connection(ICommunication *comInterface, QObject *parent) : QObject(
 
 }
 
+Status Connection::read(uint16_t id, uint16_t sid) const
+{
+
+}
+
 
 
 

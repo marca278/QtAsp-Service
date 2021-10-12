@@ -2,7 +2,8 @@
 #define ASPMESSAGE_H
 
 #include <QByteArray>
-#include <Asp/asp.h>
+#include <QMap>
+#include <Asp/aspobject.h>
 
 namespace  Asp{
 
@@ -14,6 +15,7 @@ class AspMessage
 {
 private:
     QByteArray buffer;
+    QMap<AspMessageType, QString> typeToStringMap;
 
 
 public:
@@ -23,15 +25,20 @@ public:
     static const quint16 sidPosition;
     static const quint16 dataPosition;
 
+    AspMessage();
     AspMessage(AspMessageType type,const AspObject &obj);
     AspMessage(AspMessageType type, quint16 id, quint16 sid, const QByteArray *data = nullptr);
+    AspMessage(AspMessageType type, quint16 id, quint16 sid, const QVector<quint8> data = QVector<quint8>());
 
     quint16 length();
     AspMessageType getMessageType();
+    QString getTypeAsString();
     AspObject getAspObject();
 
     QVector<quint8> toVector();
     const QByteArray &getBuffer() const;
+
+    QString toString();
 
 };
 }

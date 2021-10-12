@@ -1,4 +1,7 @@
 #include "aspframe.h"
+#include "Asp/aspHelper.h"
+
+#include <QTextStream>
 
 namespace Asp {
 
@@ -20,6 +23,20 @@ AspFrame::AspFrame(AspMessage &msg) : AspFrame()
 void AspFrame::AddMessage(AspMessage &msg)
 {
     buffer.append(msg.getBuffer());
+}
+
+QString AspFrame::toString() const
+{
+    QString string;
+
+    QTextStream stream(&string);
+
+    for (const auto &i : buffer)
+    {
+        stream << Qt::showbase << Qt::hex << static_cast<quint8>(i) << ", ";
+    }
+
+    return string;
 }
 
 }

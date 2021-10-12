@@ -118,19 +118,6 @@ static inline void ConcateVectors(vector<uint8_t> &dest,const vector<uint8_t> &s
     dest.insert(dest.end(), src.begin(), src.end());
 }
 
-template <typename T>
-static inline void insert(QByteArray& ba, T val, quint32 pos)
-{
-    if((ba.length() + 1) < static_cast<qint32>(pos))
-    {
-        ba.resize(pos);
-    }
-    QDataStream st{&ba, QIODevice::WriteOnly};
-    st.setByteOrder(QDataStream::LittleEndian);
-    st.device()->seek(pos);
-    st << val;
-}
-
 //static inline void insert(QByteArray& ba, quint16 val, quint32 pos)
 //{
 //    ba[pos] = static_cast<char>(val & 0xff);
